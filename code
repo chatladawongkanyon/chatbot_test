@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chatbot_test</title>
+<style>
+
+        body { font-family: Arial, sans-serif; text-align: center; }
+
+        #chatbox { width: 300px; height: 300px; border: 1px solid #ccc; overflow-y: auto; margin: auto; padding: 10px; }
+
+        input { width: 80%; padding: 5px; }
+
+        .question-box { margin-bottom: 10px; }
+
+        .question { display: inline-block; background: #007bff; color: white; padding: 5px 10px; margin: 5px; cursor: pointer; border-radius: 5px; }
+</style>
+</head>
+<body>
+<h2>Chatbot ง่ายๆ</h2>
+<!-- ส่วนแสดงคำถามที่แนะนำ -->
+<div class="question-box">
+<p><b>คุณสามารถถามว่า:</b></p>
+<span class="question" onclick="selectQuestion('สวัสดี')">สวัสดี</span>
+<span class="question" onclick="selectQuestion('ชื่ออะไร')">ชื่ออะไร?</span>
+<span class="question" onclick="selectQuestion('อายุเท่าไหร่')">อายุเท่าไหร่?</span>
+<span class="question" onclick="selectQuestion('ลาก่อน')">ลาก่อน</span>
+</div>
+<div id="chatbox"></div>
+<input type="text" id="userInput" placeholder="พิมพ์ข้อความ..." onkeypress="checkEnter(event)">
+<button onclick="sendMessage()">ส่ง</button>
+<script>
+
+        function sendMessage() {
+
+            let userInput = document.getElementById("userInput").value;
+
+            let chatbox = document.getElementById("chatbox");
+
+            if (userInput.trim() === "") return;
+
+            // แสดงข้อความของผู้ใช้
+
+            chatbox.innerHTML += <p><b>คุณ:</b> ${userInput}</p>;
+
+            document.getElementById("userInput").value = "";
+
+            // ให้บอทตอบกลับ
+
+            let botReply = getBotReply(userInput);
+
+            setTimeout(() => {
+
+                chatbox.innerHTML += <p><b>บอท:</b> ${botReply}</p>;
+
+                chatbox.scrollTop = chatbox.scrollHeight;
+
+            }, 500);
+
+        }
+
+        function checkEnter(event) {
+
+            if (event.key === "Enter") sendMessage();
+
+        }
+
+        function getBotReply(message) {
+
+            message = message.toLowerCase(); // แปลงเป็นตัวพิมพ์เล็กทั้งหมด
+
+            if (message.includes("สวัสดี")) return "สวัสดี! มีอะไรให้ช่วยไหม?";
+
+            if (message.includes("ชื่ออะไร")) return "ฉันคือ Chatbot ง่ายๆ!";
+
+            if (message.includes("อายุเท่าไหร่")) return "ฉันไม่มีอายุ เพราะฉันเป็นโปรแกรม!";
+
+            if (message.includes("ลาก่อน")) return "เจอกันใหม่!";
+
+            return "ขอโทษ ฉันไม่เข้าใจคำถามนั้น";
+
+        }
+
+        // ฟังก์ชันให้ผู้ใช้คลิกเลือกคำถามที่แนะนำ
+
+        function selectQuestion(question) {
+
+            document.getElementById("userInput").value = question;
+
+            sendMessage(); // ส่งข้อความอัตโนมัติเมื่อคลิกคำถาม
+
+        }
+</script>
+</body>
+</html> 
